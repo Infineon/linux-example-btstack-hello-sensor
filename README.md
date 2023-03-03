@@ -1,4 +1,4 @@
-# AIROC&trade;: Bluetooth&reg; LE hello sensor for Linux host
+# AIROC™ BTSTACK: Bluetooth® LE hello sensor for Linux host
 
 This code example demonstrates Bluetooth&reg; LE hello sensor functionality using AIROC™ Wi-Fi & Bluetooth® combo chip.
 
@@ -6,7 +6,7 @@ The application demonstrates a LE vendor-specific device. During initialization,
 
 [View this README on GitHub.](https://github.com/Infineon/linux-example-btstack-hello-sensor)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMzY3MjciLCJTcGVjIE51bWJlciI6IjAwMi0zNjcyNyIsIkRvYyBUaXRsZSI6IkFJUk9DJnRyYWRlOzogQmx1ZXRvb3RoJnJlZzsgTEUgaGVsbG8gc2Vuc29yIGZvciBMaW51eCBob3N0IiwicmlkIjoid2FuZyB5aS1jaGllbiIsIkRvYyB2ZXJzaW9uIjoiMS4wLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6IkFJUk9DIn0=)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMzY3MjciLCJTcGVjIE51bWJlciI6IjAwMi0zNjcyNyIsIkRvYyBUaXRsZSI6IkFJUk9D4oSiIEJUU1RBQ0s6IEJsdWV0b290aMKuIExFIGhlbGxvIHNlbnNvciBmb3IgTGludXggaG9zdCIsInJpZCI6IndhbmcgeWktY2hpZW4iLCJEb2MgdmVyc2lvbiI6IjEuMC4wIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IklDVyIsIkRvYyBGYW1pbHkiOiJBSVJPQyJ9)
 
 ## Requirements
 
@@ -104,17 +104,14 @@ Do the following on the Linux host PC to compile the code example:
 This code example acts as a GATT server and LE peripheral. The remote device will be a GATT client and LE central device.
 
 Two devices are required to demonstrate this application:
-One hardware platform (Linux host platform + AIROC™ Wi-Fi & Bluetooth® combo chip, i.e., the device running the Hellosensor application) and a GATT client application on mobile or laptop.
+One hardware platform (Linux host platform + AIROC™ Wi-Fi &  combo chip, i.e., the device running the Hellosensor application) and a GATT client application on mobile or laptop.
 
-The GATT client can be one of the following:
+1. Take SSH console of target platform.
+   ```bash
+   ssh <TARGET_DEVICE_USER_NAME>@<TARGET_DEVICE_IP_ADDRESS>
+   ```
 
-Any LE application that supports GATT client (LE central) role.
-
-1. Connect the target board to your host Linux PC using the provided USB cable. Ensure that the USB cable is connected to the serial console of the target platform.
-
-2. Open a terminal program on the Linux host PC and select the COM port of the target platform. Set the serial port parameters to 8N1 and 115200 baud.
-
-3. Copy the code example executable and AIROC™ BTSTACK library from the Linux host PC to the target platform using [SCP](https://help.ubuntu.com/community/SSH/TransferFiles). For example, use the following commands:
+2. Copy the code example executable and AIROC™ BTSTACK library from the Linux host PC to the target platform using [SCP](https://help.ubuntu.com/community/SSH/TransferFiles). For example, use the following commands:
    ```
    cd $HOME/Linux_CE/linux-example-btstack-hello-sensor/build
    scp linux-example-btstack-hello-sensor <TARGET_USER>@<TARGET_IP>:<TARGET_PATH>/.
@@ -126,10 +123,10 @@ Any LE application that supports GATT client (LE central) role.
    - `TARGET_USER` is the user name of the target platform
    - `TARGET_IP` is an IP address of the target platform
    - `TARGET_PATH` is the path of target platform
-   - `FW_FILE.hcd` file is Bluetooth® Firmware file.
+   - `FW_FILE.hcd` file is Bluetooth® Firmware file cloned in [Using the code example section](#using-the-code-example).
 
 
-4. Add the udev rule in the target host board for HCI UART and GPIO to bypass root access. Use the following steps to create and set up a udev rule.
+3. Add the udev rule in the target host board for HCI UART and GPIO to bypass root access. Use the following steps to create and set up a udev rule.
 
    **Note:** If you have root access, the following udev rules are not required; you can execute the code example with `sudo` permissions or by switching to the root user.
 
@@ -191,25 +188,26 @@ Any LE application that supports GATT client (LE central) role.
 
        Where,
 
-      - `ttyTHS1`, `ttymxc0`, and `ttyAMA0` are the HCI UART ports for respective platforms
+      - `ttyTHS1`, `ttymxc0`, and `ttyAMA0` are HCI UART ports for Jetson Xavier, IMX8Nano and RPICM4 respectively
       - `combo_chip_uart` is a friendly name for the HCI UART port
       - `0666` is the permission mask to bypass the root access for HCI UART
 
-5. Execute the application by setting the paths of the AIROC™ BTSTACK library using the following command on the target platform:
+4. Execute the application by setting the paths of the AIROC™ BTSTACK library using the following command on the target platform:
    ```
    cd <TARGET_PATH>
+   chmod +x <APP_NAME>
    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<BTSTACK_LIB_PATH>
    ./<APP_NAME> -c <COM_PORT> -b 3000000 -f 921600 -r <GPIOCHIPx> <REGONPIN> -n -p <FW_FILE_NAME>.hcd -d 112233221144
    ```
    Where,
    - `TARGET_PATH` is the path of the target platform where the code example application copied to
-   - `BTSTACK_LIB_PATH` is the path of the AIROC™ BTSTACK library. Skip this if the AIROC™ BTSTACK library and executable are in the same folder
+   - `BTSTACK_LIB_PATH` is the path of the AIROC™ BTSTACK library. Skip this if the AIROC™ BTSTACK library and code example application executable are in the same folder
    - `/dev/ttyTHS1` is the COM_PORT for Jetson Xavier
    - `/dev/ttymxc0` is the COM_PORT for IMX8Nano
    - `/dev/ttyAMA0` is the COM_PORT for RPICM4
    - `3000000` is the HCI baud rate
    - `112233221133` is a device BD address
-   - `-r <GPIOCHIPx> <REGONPIN> -n`  is setting the GPIO control to enable autobaud for AIROC™ Wi-Fi + Bluetooth® combo chip
+   - `-r <GPIOCHIPx> <REGONPIN> -n`  is setting the GPIO control to program the Bluetooth® Firmware for AIROC™ Wi-Fi + Bluetooth® combo chip
       - `-r gpiochip5 0 -n`  For IMX8Nano
       - `-r gpiochip0 3 -n`  For RPICM4
       - `-r gpiochip1 16 -n`  For Jetson Xavier
@@ -231,60 +229,32 @@ Any LE application that supports GATT client (LE central) role.
    Patch successfully downloaded. Reset chip
    ```
 
-6. On the GATT client side, do the following:
+5. To test using LightBlue iOS/Android app on a smartphone as Bluetooth&reg; LE Central, do the following:
+   1. Download and install the LightBlue app for [iOS](https://apps.apple.com/tw/app/lightblue/id557428110) or [Android](https://play.google.com/store/apps/details?id=com.punchthrough.lightblueexplorer&hl=zh_TW&gl=US).
 
-   a. Scan.
+      Scan the following QR codes from your mobile phone to download the LightBlue app.
 
-   b. Register for notifications.
+      **Figure 3. Application QR code**
 
-   c. Push a button on the board to send notifications to the client.
+      ![AppQR](images/qr.png)
 
-   d. Write the Hello Sensor characteristic configuration value from the client.
+   2. Turn ON Bluetooth&reg; on your Android or iOS device and launch the LightBlue app and Swipe down on the LightBlue app home screen to start scanning for Bluetooth&reg; LE Peripherals; your device appears in the LightBlue app home screen with the name 'Hello'. Select your device and to establish a Bluetooth&reg; LE connection (see Figure 4) and accept the pairing request.
 
-7. There are two attributes in the vendor-specific 'Hello Sensor Service'.
+      **Figure 4. Scan and connect 'Hello' using LightBlue app**
 
-   a. The number of LED blinks which could be read or written by the client, indicating the number of blinks of the LED in any device containing LEDs.
-      (In this code example, the number of blinks are just printed on the screen)
+      ![](images/app_01.png)
 
-   b. Device information with name of app and other details. This also has a CCC descriptor that can be configured by the client.
+   3. After Bluetooth® connected, you can see multiple Serivces: Device Information, Battery Service and **UUID:1B7E8251-2877-41C3-B46E-CF057C562023** (see Figure 5).  
 
-   The client app can be used to read the service attributes, write the CCCD for notification, and also write the 'Number of Blinks' value.
+      **Figure 5. hello app service and characteristic list**
 
-8. The user can also send a notification to the client by pressing the **Enter** key on the keyboard. This will notify the client by changing the last byte of the name with the number of  times the user has chosen this option.
-   The attribute values are notified with a change in the name; the last byte gets incremented by 1 (rounded off to 0 at 10) every time the user presses the **Enter** key to send notification.
+      ![](images/app_02.png)
 
-9. If a disconnection occurs, the Hello Sensor server device starts advertising again.
+   4. Select **0x5E9BF2A8-F93F-4481-A67E-3B2F4A07891A Characteristic** and then select the characteristic with the **Write** property, write 1 byes only, you can see the value will be change by written value. (see Figure 6)
 
-10. The user can exit the application by choosing '0. Exit'.
+      **Figure 6. test write property through app**
 
-### Using LightBlue iOS/Android app on a smartphone as Bluetooth&reg; LE Central
-
-1. Turn ON Bluetooth&reg; on your Android or iOS device and launch the LightBlue app.
-   download and install the LightBlue app for [iOS](https://apps.apple.com/tw/app/lightblue/id557428110) or [Android](https://play.google.com/store/apps/details?id=com.punchthrough.lightblueexplorer&hl=zh_TW&gl=US).
-
-   To use an iOS or Android Smartphone, download the LightBlue app. Scan the following QR codes from your mobile phone to download the LightBlue app.
-
-   **Figure 3. Application QR code**
-
-   ![AppQR](images/qr.png)
-
-2. Swipe down on the LightBlue app home screen to start scanning for Bluetooth&reg; LE Peripherals; your device appears in the LightBlue app home screen with the name 'Hello'. Select your device to establish a Bluetooth&reg; LE connection (see Figure 4).
-
-  **Figure 4. Scan and connect 'Hello' using LightBlue app**
-
-  ![](images/app_01.png)
-
-3. after Bluetooth connected, you can see multiple Serivces: Device Information, Battery Service and **UUID:1B7E8251-2877-41C3-B46E-CF057C562023** (see Figure 5).  
-
-  **Figure 5. hello app service and characteristic list**
-
-  ![](images/app_02.png)
-
-4. Select **0x5E9BF2A8-F93F Characteristic** and then select the characteristic with the **Write** property, write 1 byes only, you can see the value wall be change by written value. (see Figure 6)
-
-  **Figure 6. test write property through app**
-
-  ![](images/app_04.png)
+      ![](images/app_04.png)
 
 
 ## Debugging
